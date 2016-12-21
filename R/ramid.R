@@ -1,8 +1,8 @@
 ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv"){
 # temp <- tempfile()
-# lf<-unzip(zifile,exdir="temp")
- lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
- print(lcdf)
+ lf<-unzip("data/wd.zip",exdir="ttt")
+# lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
+ print(lf)
 
   fn<-inFile  #file.path(paste("./",inFile,sep=""));
   rada<-read.table(fn, sep=",");   # read experimental data
@@ -18,7 +18,7 @@ ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv"){
          rada[,imz]<-as.numeric(as.character(rada[,imz]))
          rada[,imz+1]<-as.numeric(as.character(rada[,imz+1])) # column of signal intensity
    for(k in 1:length(lfi)){
-  a<-readcdf(paste("/data/temp/",lfi[k],sep="")) # read the following time courses from CDFs
+  a<-readcdf(paste("/data/",lfi[k],sep="")) # read the following time courses from CDFs
            mz=a[[1]]; iv=a[[2]]; #mz: mz rang; iv: signal intensities
             niso=getfrg(mz); nfr=length(niso) # number of different mz corresponding to each fragment
          j<-1; i<-1
