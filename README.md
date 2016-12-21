@@ -107,26 +107,4 @@ Now the list lcdf does not contain exceptions. Then use seapatt(...) to evaluate
 
 This set of CDF files provides the data for the analysis of the four metabolites under the four conditions. The conditions are "Hyp"-hypoxia, "Nat"- no labeled substances registered in complete media of incubation, "Nor"- normoxia, "Com"- commercial preparations registered in minimal media.
 
-Some additional info about the corresponding metabolites provided in the function metinfo (...). CDF files do not contain this info: "C_derivate" - the number of carbons in the whole derivate,"C_fragment"- the number of carbons in the analyzed fragment, "numSi" - the number of Si atoms, "numS" - the number of S atoms. If two fragments were analyzed, then two corresponding columns were added.
-  
-- 2) Docker image. To create the Docker container: 
-        - go to the directory where the dockerfile is;
-        - create container from dockerfile:
-''' sudo docker build -t midcor:0.1 . '''
 
-## Usage Instructions
-
-  To run MIDcor independently: standing in the MIDcor directory inside R environment, after reading the sources execute the command:
- 
- ''' run_midcor("input_file","output_file")  '''
- 
- here input file should be in Metabolights format, as is shown in the screenshot
- 
- To run MIDcor as a docker image, execute
- 
- '''  sudo docker run -i -t -v $PWD:/data midcor:0.1 -i /data/input.csv -o /data/output.csv '''
-
- An example of input file is provided as "outin.csv"
-
-## Publications
-- “MIDcor”, an R-program for deciphering mass interferences in mass spectra of metabolites enriched in stable isotopes. Submitted to BMC bioinformatics.
