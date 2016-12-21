@@ -73,8 +73,11 @@ The file “ramid.R” contains commands to include ncdf4 library, necessary to 
 
 - 2) Create a library of functions:
      # standing on the directory where the package is (RaMID) execute the following commands
+     
 '''    library(devtools)
+
        build()
+       
        install() '''
 
   
