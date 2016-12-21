@@ -70,6 +70,13 @@ RaMID reads the CDF files presented in the working directory, and then
 ''' source("ramid.R")'''
 
 The file “ramid.R” contains commands to include ncdf4 library, necessary to read CDF files (it is free software that should be installed before starting an analysis), and file "libcdf.R", containing all the needed functions.
+
+- 2) Create a library of functions:
+     # standing on the directory where the package is (RaMID) execute the following commands
+'''    library(devtools)
+       build()
+       install() '''
+
   
 ## Usage Instructions
 
