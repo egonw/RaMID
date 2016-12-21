@@ -85,7 +85,7 @@ rowfr<-function(matis,niso ){# normalization in each row
   mm=subas(mm,bas,niso[i])    # subtract baseline
   mm1=eimpact(mm,niso[i])      # correct electron impact
   mm0=rowfr(mm,niso[i])        # normalization
-    savplt(mm1,mm0,nma,i,plname)
+#    savplt(mm1,mm0,nma,i,plname)
    pint=7;  nma1= which.max(mm0[(nma):(nma+pint),1])
  prep= nma1+nma-1
       return(list(mm0[prep,],mm1[prep,],mm[prep,])) }
