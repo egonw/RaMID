@@ -1,6 +1,6 @@
-ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv"){
+ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv",zifile="wd.zip"){
  temp <- tempfile()
- lf<-unzip("wd.zip",exdir="temp")
+ lf<-unzip(zifile,exdir="temp")
  lcdf<-dir(path="./temp",pattern=".CDF") # list of names of ".CDF" files
 
   fn<-file.path(paste("./",inFile,sep=""));
