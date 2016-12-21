@@ -1,4 +1,4 @@
-Package: midcor
+Package: ramid
 Title: Correction of raw GC/MS data for natural stable isotope abundace.
 Version: 0.0.0.9000
 Authors@R: person("Vitaly", "Selivanov", email = "selivanov@ub.edu", role = c("aut", "cre"))

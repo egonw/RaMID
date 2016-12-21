@@ -3,6 +3,8 @@
 library(devtools)
 build()
 install()
+
+ ls("package:ramid") # list functions
 ******************-------------------------******************
 # run script:
 vs@vit:~/phenomen/docker-midcor/scripts$ ./runMidcor.R -i ~/phenomen/outin.csv -o ~/phenomen/tes_out.csv

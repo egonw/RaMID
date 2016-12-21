@@ -35,7 +35,6 @@ RaMID reads the CDF files presented in the working directory, and then
 - corrects baseline for each selected mz;
 - choses the time points where the distribution of peaks is less contaminated by other compounds and thus is the most representative of the real analyzed distribution of mass isotopomers;
 - evaluates this distribution, and saves it in files readable by MIDcor, a program, which performs the next step of analysis, i.e. correction of the RaMID spectra for natural isotope occurrence, which is necessary to perform a fluxomic analysis.
-- correction for H+ loss produced by electron impact, natural occurring isotopes, and peaks overlapping
 
 ## Screenshots
 
