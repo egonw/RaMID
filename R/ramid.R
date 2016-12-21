@@ -1,6 +1,6 @@
 ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv"){
 # temp <- tempfile()
- lf<-unzip("data/wd.zip",exdir="ttt")
+ lf<-unzip("data/wd.zip",exdir="data/ttt")
 # lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
  print(lf)
 
