@@ -1,9 +1,10 @@
-ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv",zifile="wd.zip"){
- temp <- tempfile()
- lf<-unzip(zifile,exdir="temp")
+ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv"){
+# temp <- tempfile()
+# lf<-unzip(zifile,exdir="temp")
  lcdf<-dir(path="./temp",pattern=".CDF") # list of names of ".CDF" files
+ print(lcdf)
 
-  fn<-file.path(paste("./",inFile,sep=""));
+  fn<-inFile  #file.path(paste("./",inFile,sep=""));
   rada<-read.table(fn, sep=",");   # read experimental data
    tit<-rada[1,] # copy first line of titles
   for(i in 1:ncol(rada)) {
@@ -30,7 +31,7 @@ ruramid<-function(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv",zifile="wd.z
    }
     write.table(tit, file=ouFile, sep=",", row.names = F, col.names = F)
     write.table(rada[-1,], file=ouFile, sep=",", row.names = F, col.names = F, append=T)
-    unlink("./temp", recursive = T, force = T)
+#    unlink("./temp", recursive = T, force = T)
 }
 
 
