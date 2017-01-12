@@ -66,15 +66,15 @@ RaMID reads the CDF files presented in the working directory, and then
   
 - 1) Create a library of functions:
 
- '''   library(devtools)
+ '''   library(devtools) '''
 
-       build()
+ '''   build() '''
        
-       install()
+ '''   install()
        
-       library(ramid) '''
+ '''   library(ramid) '''
 
-       library(ncdf4) '''
+ '''   library(ncdf4) '''
 
 - 2) read directly the necessary functions:
   
