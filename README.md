@@ -60,11 +60,11 @@ RaMID reads the CDF files presented in the working directory, and then
 
 ## Installation
 
-- 1) As independent program. RaMID itself does not require installation. Standing in the RaMID directory enter in R environment with the command:
+- As independent program. RaMID itself does not require installation. Standing in the RaMID directory enter in R environment with the command:
   
 ''' sudo R '''
   
-- Create a library of functions:
+- 1) Create a library of functions:
 
  '''   library(devtools)
 
@@ -77,11 +77,15 @@ RaMID reads the CDF files presented in the working directory, and then
 - 2) read directly the necessary functions:
   
 ''' source("R/ramid.R")'''
+
 ''' source("R/libcdf.R")'''
+
 ''' library(ncdf4) '''
 
 - the directory data/ should contain a .zip file containing the .cdf files that are to be analyzed.
 
 ## Usage Instructions
 
-The analysis performed when executing the  command: ''' ruramid(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv") '''
+- The analysis performed when executing the  command:
+
+ ''' ruramid(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv") '''
