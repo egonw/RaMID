@@ -72,6 +72,8 @@ RaMID reads the CDF files presented in the working directory, and then
        
        install()
        
+       library(ramid) '''
+
        library(ncdf4) '''
 
 - 2) read directly the necessary functions:
