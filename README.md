@@ -62,48 +62,26 @@ RaMID reads the CDF files presented in the working directory, and then
 
 - 1) As independent program. RaMID itself does not require installation. Standing in the RaMID directory enter in R environment with the command:
   
-'''  R '''
+''' sudo R '''
   
- read the necessary functions:
-  
-''' source("ramid.R")'''
+- Create a library of functions:
 
-The file “ramid.R” contains commands to include ncdf4 library, necessary to read CDF files (it is free software that should be installed before starting an analysis), and file "libcdf.R", containing all the needed functions.
-
-- 2) Create a library of functions:
-     # standing on the directory where the package is (RaMID) execute the following commands
-     
-'''    library(devtools)
+ '''   library(devtools)
 
        build()
        
-       install() '''
+       install()
+       
+       library(ncdf4) '''
 
+- 2) read directly the necessary functions:
   
+''' source("R/ramid.R")'''
+''' source("R/libcdf.R")'''
+''' library(ncdf4) '''
+
+- the directory data/ should contain a .zip file containing the .cdf files that are to be analyzed.
+
 ## Usage Instructions
 
-The previous command ('source("ramid.R")') in addition to loading all the necessary functions, already starts the analysis. 1) It sets the path to the previously created working directory. This directory should contain the CDF files designed for the analysis. The subdirectories "files" and "graf," are also necessary, although they can be empty. 2) It makes a list of names of CDF files contained in the working directory and prints this list, as the following screenshot shows.
-
-![screenshot](figs/listCDFiles.png)
-
-This list is used further to deduce the metabolites and conditions designed for the analysis. Therefore, although there are no restrictions to the CDF filenames, they should contain some indications of a corresponding metabolite and condition. Here the characters in positions 1-3 indicated metabolites and 4-6 indicated conditions in most of the files. An exception is Glyc (stated for glycogen). This exception can be easily corrected by substitution "Glyc" by "Gly" in the list of filenames. This information is printed in the last two rows of the above screenshot. It is necessary to change these parameters to use a different system of names.
-
-The analysis of an arbitrary set of CDF files created by mass spectrometry machine requires the following. Either create another directory with new CDF files (and, respectively, substitute the command 'setwd("./wd")') or substitute the current CDF files in the same directory ("./wd"). The changes in the list of filenames to facilitate the deducing the names of metabolites and conditions is done using 'gsub( oldp, newp, filenames )'.
-
-After such an adjustment to a new set of data, the analysis starts by executing a function primcor():
-
-![screenshot](figs/ramid().png)
-
-This function reads the CDF files contained in the directory "wd" and evaluates the distribution of peaks corresponding to the spectra of mass isotopomers for the metabolites, which names it prints as the screenshot shows. RaMID saves in the directory "files" these spectra, which is the main result of its running, and in the directory "graf" the graphs of time courses of peaks of M+0 isotopologs.
-
-Some words about the particular implementation of automatically finding the metabolites and conditions. If some correction of filenames is required to get a unified system of filenames that facilitates the search of metabolites and conditions, then use gsub(...) (in this example it is already included in 'primcor()'): 
-
-![screenshot](figs/gsub.png)
-
-Now the list lcdf does not contain exceptions. Then use seapatt(...) to evaluate the set of metabolites and conditions from the list of corrected filenames:
-
-![screenshot](figs/seapatt.png)
-
-This set of CDF files provides the data for the analysis of the four metabolites under the four conditions. The conditions are "Hyp"-hypoxia, "Nat"- no labeled substances registered in complete media of incubation, "Nor"- normoxia, "Com"- commercial preparations registered in minimal media.
-
-
+The analysis performed when executing the  command: ''' ruramid(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv") '''
