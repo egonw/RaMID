@@ -70,7 +70,7 @@ RaMID reads the CDF files presented in the working directory, and then
 
  '''   build() '''
        
- '''   install()
+ '''   install() '''
        
  '''   library(ramid) '''
 
