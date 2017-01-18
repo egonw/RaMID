@@ -90,4 +90,4 @@ RaMID reads the CDF files presented in the working directory, and then
 
 - The analysis performed when executing the  command:
 
- ''' ruramid(inFile="Anusha-hypoxia.csv",ouFile="ramidout.csv") '''
+ ''' ruramid(inFile="ramidin.csv",ouFile="ramidout.csv") '''
