@@ -1,6 +1,6 @@
-ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv"){
+ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip"){
  temp <- "data/ttt/"
- lf<-unzip("data/wd.zip",exdir=temp)
+ lf<-unzip(cdfzip,exdir=temp)
 # lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
  print(lf)
 
