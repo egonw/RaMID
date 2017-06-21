@@ -27,7 +27,7 @@ ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip
      ldf<-list(); # data frame to write Ramid output in PhenoMeNal format
      ifi<-0;
      finames=character()
-   for(k in 1:(length(lfi)-2)){
+   for(k in 1:(length(lfi))){
   a<-readcdf(paste(temp,lfi[k],sep="")) # read the following time courses from CDFs
 #    mz, intensities, number of mz-point at each rett, sum of iv at each rett
      mz<-a[[1]]; iv<-a[[2]]; npoint<-a[[3]]; rett<-a[[4]]; totiv<-a[[5]];
@@ -50,17 +50,23 @@ ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip
    
    lenpat<-gnmass(mzrang[[ranum]])
    ofs<-0
-   for(ii in lenpat){
- a<-setmat(ii,mzrang=mzrang[[ranum]],mzind=mzi,iv=iv, mzpt=mzpt[ranum],tini=tl,tfin=tu,ofs=ofs); ofs<-ii
- intens<-a[[1]];  mzr<-a[[2]];# separate area peak ± tlim for intensity matrix
-   bas=baseln(intens,nmi,tlim)   # baseline:
+   for(ii in lenpat){ mzr<-mzrang[[ranum]][(ofs+1):ii]
+    if(rada[ln+1,imz] %in% mzr){
+#  a<-setmat( ii,mzrang=mzrang[[ranum]],mzind=mzi,iv=iv, mzpt=mzpt[ranum],tini=tl,tfin=tu,ofs=ofs); ofs<-ii
+   intens<-matrix(ncol=(ii-ofs),nrow=(tu-tl))
+     intens<-filmat(intens,iv,mzpt=mzpt[ranum],mzi-1+ofs)
+    
+  bas=baseln(intens,nmi,tlim)   # baseline:
   intens<-subas(intens,bas)    # subtract baseline
   
     a<- peakdist(intens,rett1,tlim)
     dispik<-c(0.,a[[1]]); disar<-c(0.,a[[2]]); j<-0
  for(i in 1:length(mzr)) if(rada[ln+i,1]==lfi[k]) {j=j+1; rada[(ln+j),iint]<-round(disar[i],3)}
     ln<-ln+j
-   }
+ break
+ }
+   ofs<-ii
+    }
       } }
 
 
@@ -93,7 +99,7 @@ findmax<-function(totiv,tin,tfi){
   return(nma)}
   
 setmat<-function(ii,mzrang,mzind,iv,mzpt,tini,tfin,ofs){
-        mz00<-mzrang[ii]-1
+        mz00<-mzrang[ii]-1; mativ<-matrix();mzr<-integer()
      if(mz00 %in% (mzrang[(ofs+1):ii]) ) {
       mzr<-mzrang[(ofs+1):ii]
     mativ<-matrix(ncol=(ii-ofs),nrow=(tfin-tini))
