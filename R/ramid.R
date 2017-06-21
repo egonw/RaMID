@@ -27,7 +27,7 @@ ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip
      ldf<-list(); # data frame to write Ramid output in PhenoMeNal format
      ifi<-0;
      finames=character()
-   for(k in 1:length(lfi)){
+   for(k in 1:(length(lfi)-2)){
   a<-readcdf(paste(temp,lfi[k],sep="")) # read the following time courses from CDFs
 #    mz, intensities, number of mz-point at each rett, sum of iv at each rett
      mz<-a[[1]]; iv<-a[[2]]; npoint<-a[[3]]; rett<-a[[4]]; totiv<-a[[5]];
