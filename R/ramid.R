@@ -98,14 +98,6 @@ findmax<-function(totiv,tin,tfi){
   nma<-which.max(totiv1);
   return(nma)}
   
-setmat<-function(ii,mzrang,mzind,iv,mzpt,tini,tfin,ofs){
-        mz00<-mzrang[ii]-1; mativ<-matrix();mzr<-integer()
-     if(mz00 %in% (mzrang[(ofs+1):ii]) ) {
-      mzr<-mzrang[(ofs+1):ii]
-    mativ<-matrix(ncol=(ii-ofs),nrow=(tfin-tini))
-  mativ<-filmat(mativ,iv,mzpt,mzind-1+ofs)
-}
-  return(list(mativ,mzr))}
 
 #       for(fi in lcdf){itrac<-0 #labname<-" "; labpos<-" "; abund<-" "; ti<-0 #CDF files one by one
 #     a <-findpats(fi,finames,ldf);
