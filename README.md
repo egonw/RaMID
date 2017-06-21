@@ -18,7 +18,7 @@ RaMID is written in “R”, uses library “ncdf4” (it should be installed be
 ## Functionality
 
 - Preprocessing of raw data
-- initiation of workflows
+- initiation of workflows of the data analysis
 
 ## Approaches
 
@@ -56,7 +56,7 @@ RaMID reads the CDF files presented in the working directory, and then
 
 ## Git Repository
 
-- https://github.com/seliv55/RaMID
+- https://github.com/seliv55/wf/tree/master/RaMID
 
 ## Installation
 
@@ -90,4 +90,14 @@ RaMID reads the CDF files presented in the working directory, and then
 
 - The analysis performed when executing the  command:
 
+ ''' ruramid(inFile, ouFile, cdfzip ) '''
+ 
+    here the parameters are the names of a file containing input information, output file with the result (extracted relative intensities for all m/z constituting the peak), and a .zip archive containing .CDF files with registration of the injections into the mass spectrometer performed in the course of the given analyzed experiment.
+    
+## Example provided
+ 
+- extracting the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of only one peak that includes all isotopomers of a metabolite of interest. Archive containing such data is "data/wd.zip" and correspinding input and output are in "ramidin.csv" and "ramidout.csv". The following command starts this analysis:
+
  ''' ruramid(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip") '''
+
+
