@@ -9,7 +9,7 @@ R-program to read CDF files, created by mass spectrometry machine, and evaluate 
 ## Description
 
 RaMID is a computer program designed to read the machine-generated files saved in netCDF format containing registered time course of m/z chromatograms. It evaluates the peaks of mass isotopomer distribution (MID) making them ready for further correction for natural isotope occurrence.
-RaMID is written in “R”, uses library “ncdf4” (it should be installed before the first use of RaMID)  and contains several functions, located in the files “ramid.R” and "libcdf.R", designed to read cdf-files, and analyze and visualize  the spectra that they contain.
+RaMID is written in “R”, uses library “ncdf4” (it should be installed before the first use of RaMID)  and contains several functions, located in the files “ramid.R” and "libcdf.R," designed to read CDF files, and analyze and visualize the spectra that they contain.
 
 ## Key features
 
@@ -33,8 +33,8 @@ RaMID is written in “R”, uses library “ncdf4” (it should be installed be
 RaMID reads the CDF files presented in the working directory, and then
 - separates the time courses for selected m/z peaks corresponding to specific mass isotopomers;
 - corrects baseline for each selected mz;
-- choses the time points where the distribution of peaks is less contaminated by other compounds and thus is the most representative of the real analyzed distribution of mass isotopomers;
-- evaluates this distribution, and saves it in files readable by MIDcor, a program, which performs the next step of analysis, i.e. correction of the RaMID spectra for natural isotope occurrence, which is necessary to perform a fluxomic analysis.
+- chooses the time points where the distribution of peaks is less contaminated by other compounds and thus is the most representative of the real analyzed distribution of mass isotopomers;
+- evaluates this distribution, and saves it in files readable by MIDcor, a program, which performs the next step of the analysis, i.e. correction of the RaMID spectra for natural isotope occurrence, which is necessary to carry out a fluxomic analysis.
 
 ## Screenshots
 
@@ -81,9 +81,9 @@ RaMID reads the CDF files presented in the working directory, and then
   
  ''' R '''
 
-''' source("R/ramid.R")'''
+''' source("R/ramid.R") '''
 
-''' source("R/libcdf.R")'''
+''' source("R/libcdf.R") '''
 
 ''' library(ncdf4) '''
 
@@ -95,7 +95,9 @@ RaMID reads the CDF files presented in the working directory, and then
 
  ''' ruramid(inFile, ouFile, cdfzip ) '''
  
-    here the parameters are the names of a file containing input information, output file with the result (extracted relative intensities for all m/z constituting the peak), and a .zip archive containing .CDF files with registration of the injections into the mass spectrometer performed in the course of the given analyzed experiment.
+
+
+    here the parameters are the names of a file containing input information, output file with the result (extracted relative intensities for all m/z constituting the peak), and a .zip archive containing CDF files with a registration of the injections into the mass spectrometer performed in the course of the given analyzed experiment.
     
 ## Two examples are provided
 
@@ -107,7 +109,7 @@ RaMID reads the CDF files presented in the working directory, and then
 
  ''' ruramid(inFile="../cdf2mid/cdf2midout.csv",ouFile="ramidout.csv",cdfzip="data/roldan.zip") '''
  
- The output file contains the distribution of mass isotopomers in the analyzed peak, extracted by RaMID from the provided CDF files, using the information provided in the inFile.
- 
+ The output file contains the distribution of mass isotopomers in the analyzed peak, extracted by RaMID from the provided CDF files, using the information given in the inFile.
+
 
 
