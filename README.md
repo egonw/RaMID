@@ -65,27 +65,31 @@ RaMID reads the CDF files presented in the working directory, and then
   
 - 1) To create a library "ramid":
 
- ''' sudo R '''
+'''
+sudo R
 
- '''   library(devtools) '''
+library(devtools)
 
- '''   build() '''
-       
- '''   install() '''
-       
- '''   library(ramid) '''
+build()
 
- '''   library(ncdf4) '''
+install()
+
+library(ramid)
+
+library(ncdf4)
+'''
 
 - 2) to read directly the necessary functions:
   
- ''' R '''
+'''
+R
 
-''' source("R/ramid.R") '''
+source("R/ramid.R")
 
-''' source("R/libcdf.R") '''
+source("R/libcdf.R")
 
-''' library(ncdf4) '''
+library(ncdf4)
+'''
 
 - the directory data/ should contain a .zip file containing the .cdf files that are to be analyzed.
 
@@ -93,21 +97,25 @@ RaMID reads the CDF files presented in the working directory, and then
 
 - The analysis performed when executing the  command:
 
- ''' ruramid(inFile, ouFile, cdfzip ) '''
- 
+'''
+ruramid(inFile, ouFile, cdfzip )
+'''
 
-
-    here the parameters are the names of a file containing input information, output file with the result (extracted relative intensities for all m/z constituting the peak), and a .zip archive containing CDF files with a registration of the injections into the mass spectrometer performed in the course of the given analyzed experiment.
+here the parameters are the names of a file containing input information, output file with the result (extracted relative intensities for all m/z constituting the peak), and a .zip archive containing CDF files with a registration of the injections into the mass spectrometer performed in the course of the given analyzed experiment.
     
 ## Two examples are provided
 
 - extracting the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of only one peak that includes all isotopomers of a metabolite of interest. Archive containing such data is "data/wd.zip" and correspinding input and output are in "ramidin.csv" and "ramidout.csv". The following command starts this analysis:
 
- ''' ruramid(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip") '''
+'''
+ruramid(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip")
+'''
  
 - extracting the m/z peaks distribution from multipeak CDF files, i.e. files that contain time course of several peaks that include all isotopomers of metabolites of interest. Archive containing such data is "data/roldan.zip" and correspinding input and output are in "../cdf2mid/cdf2midout.csv" (It is supposed that the user has downloaded the repository "cdf2mid". If not, the necessary file should be copied and this parameter shows the path to it.) and "ramidout.csv". The following command starts this analysis:
 
- ''' ruramid(inFile="../cdf2mid/cdf2midout.csv",ouFile="ramidout.csv",cdfzip="data/roldan.zip") '''
+'''
+ruramid(inFile="../cdf2mid/cdf2midout.csv",ouFile="ramidout.csv",cdfzip="data/roldan.zip")
+'''
  
  The output file contains the distribution of mass isotopomers in the analyzed peak, extracted by RaMID from the provided CDF files, using the information given in the inFile.
 
