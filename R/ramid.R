@@ -26,7 +26,7 @@ ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip
   fn<-inFile  #file.path(paste("./",inFile,sep=""));
   rada<-read.table(inFile, sep=sp);   # read experimental data
    tit<-rada[1,] # copy titles
-    write.table(tit, file=ouFile, sep=", ", row.names = F, col.names = F)
+    write.table(tit, file=ouFile, sep=",", row.names = F, col.names = F)
   for(i in 1:ncol(rada)) {
         if(grepl("m/z",rada[1,i])) imz<-i # get a column of mz
         if(grepl("retent",rada[1,i])) iret<-i # get a column of retentions
@@ -104,7 +104,7 @@ ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip
      iso<-character()
      for(i in 1:nmass)iso[i]<-paste(substr(mimya,1,3),"_13C",i-2,sep="")
      tab<-cbind(ord2[1,1:iret],round(pikmz),delta,iso," ")
-    write.table(tab, file=ouFile, sep=", ", row.names = F, col.names = F, append=T)
+    write.table(tab, file=ouFile, sep=",", row.names = F, col.names = F, append=T)
 	}
       }
     }
