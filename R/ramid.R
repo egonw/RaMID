@@ -1,77 +1,114 @@
-ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip"){
+# inFile="out.csv";ouFile="ramidout.csv";cdfzip="data/SW620.zip"
+sset<-function(rd,nm,nar){ # rd=Metabolights data frame, nm=column number with pattern for subsetting;
+#  nar=list of patterns used
+  ordd<-data.frame()
+    naz<-as.character(rd[5,nm]) #file name
+    narr<-c(nar,naz) #array of file names
+    ordd<-subset(rd, subset=(as.character(rd[,nm])==naz)) # rows for selected metaboliite
+    rdd<-subset(rd, subset=(as.character(rd[,nm])!=naz))  # rest of rows
+return(list(ordd,rdd,narr,naz))
+}
+basln<-function(vec,pos=length(vec),ofs=0){# baseline
+   basl<--1; basr<--1;bas<-0
+  if(pos>ofs) basl<-mean(vec[1:(pos-ofs)])
+  if(pos<(length(vec)-ofs)) basr<-mean(vec[(pos+ofs):length(vec)])
+  if((basl>0)&(basr>0)) bas<-min(basl,basr)
+  else if(basl<0) bas<-basr
+  else if(basr<0) bas<-basl
+ return(bas)}
+
+ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip",sp=','){
  temp <- paste(tempdir(),"/",sep="")  #"data/ttt/"  #
  lf<-unzip(cdfzip,exdir=temp)
 # lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
  print(lf)
 
   fn<-inFile  #file.path(paste("./",inFile,sep=""));
-  rada<-read.table(fn, sep=",");   # read experimental data
-   tit<-rada[1,] # copy first line of titles
+  rada<-read.table(inFile, sep=sp);   # read experimental data
+   tit<-rada[1,] # copy titles
+    write.table(tit, file=ouFile, sep=", ", row.names = F, col.names = F)
   for(i in 1:ncol(rada)) {
-        if(grepl("m/z",rada[1,i])) imz=i # get a column of mz
-        if(grepl("retent",rada[1,i])) iret=i # get a column of retentions
-        if(grepl("signal i",rada[1,i])) iint=i # get a column of intensity
+        if(grepl("m/z",rada[1,i])) imz<-i # get a column of mz
+        if(grepl("retent",rada[1,i])) iret<-i # get a column of retentions
+        if(grepl("signal",rada[1,i])) iint<-i # get a column of intensity
+        if(grepl("Metab",rada[1,i])) inaz<-i # get a column of metabolite names
+        if(grepl("atomic",rada[1,i])) ifrg<-i # get a column of names
   }
-         rada[,iret]<-as.numeric(as.character(rada[,iret]))
-         rada[,imz]<-as.numeric(as.character(rada[,imz]))
-         rada[,iint]<-as.numeric(as.character(rada[,iint])) # column of signal intensity
-  lfi<-as.character(rada[2,1]); j<-1  # get lfi: list of CDF files
-  lret<-rada[2,iret];
-  lmz<-rada[2,imz];
-  for(i in 2:nrow(rada)){ if(grepl(as.character(rada[i,1]),lfi[j])) next
-   j<-j+1; lfi<-c(lfi,as.character(rada[i,1]))
-        lret<-c(lret,rada[i,iret])
-        lmz<-c(lmz,rada[i,imz])
-           }
-           ln<-1;
-     ldf<-list(); # data frame to write Ramid output in PhenoMeNal format
-     ifi<-0;
-     finames=character()
-   for(k in 1:(length(lfi))){
-  a<-readcdf(paste(temp,lfi[k],sep="")) # read the following time courses from CDFs
-#    mz, intensities, number of mz-point at each rett, sum of iv at each rett
-     mz<-a[[1]]; iv<-a[[2]]; npoint<-a[[3]]; rett<-a[[4]]; totiv<-a[[5]];
-#    summary: 
- a<-info(mz,iv,npoint); mzpt<-a[[1]]; tpos<-a[[2]]; mzind<-a[[3]]; mzrang<-a[[4]]; 
-     
-     icyc<-0; lmet<-numeric(); imet<--1; mzr<-list(); dispik<-list(); disar<-list()
-     
-     rts<-lret[k]*60.;
-     
-        for(ranum in 1:length(mzrang))
-   if((lmz[k] %in% mzrang[[ranum]]) & (rts > rett[tpos[ranum]]) & (rts < rett[tpos[ranum+1]-5])) {
-#   find whether mid for a given metabolite is presented in the file fi 
-  nma<-findmax(totiv=totiv,tin=tpos[ranum],tfi=tpos[ranum+1]);
-  tlim=50
-  mzi<-mzind[ranum]+mzpt[ranum]*(nma-tlim)
-   tl<-tpos[ranum]+nma-tlim;  tu<-tpos[ranum]+nma+tlim;
-    tiv<-totiv[tl:tu]; rett1<-rett[tl:tu] #separate area peak ± tlim for total intensity and retention
-    nmi<-which.min(tiv);
-   
-   lenpat<-gnmass(mzrang[[ranum]])
-   ofs<-0
-   for(ii in lenpat){ mzr<-mzrang[[ranum]][(ofs+1):ii]
-    if(rada[ln+1,imz] %in% mzr){
-#  a<-setmat( ii,mzrang=mzrang[[ranum]],mzind=mzi,iv=iv, mzpt=mzpt[ranum],tini=tl,tfin=tu,ofs=ofs); ofs<-ii
-   intens<-matrix(ncol=(ii-ofs),nrow=(tu-tl))
-     intens<-filmat(intens,iv,mzpt=mzpt[ranum],mzi-1+ofs)
+  rda<-rada
+  fiar=character()
+  rtdev<-15; imya<-1
+  ord<-data.frame()
+  while(nrow(rda)>5){
+# select file names
+     a<-sset(rd=rda,nm=imya,nar=fiar)
+      ord<-droplevels(a[[1]]); rda<-droplevels(a[[2]]); fiar<-a[[3]]; fimya<-a[[4]]
+      tfi<-paste(temp,fimya,sep="")
+      if(!grepl('.CDF',fimya)) tfi<-paste(temp,fimya,".CDF",sep="")
+     a<-readcdf(tfi) # read mz, intensities, number of mz-point, sum of iv at each rett
+      mz<-a[[1]]; iv<-a[[2]]; npoint<-a[[3]]; rett<-a[[4]];
+     a<-info(mz,iv,npoint);                     # summary of CDF file content
+      mzpt<-a[[1]]; tpos<-a[[2]]; mzind<-a[[3]]; mzrang<-a[[4]]; 
+# select metabolites names in the selected file
+    metar=character()
+    ord1<-data.frame()
+   while(nrow(ord)>3){
+     a<-sset(rd=ord,nm=inaz,nar=metar)
+      ord1<-droplevels(a[[1]]); ord<-droplevels(a[[2]]); metar<-a[[3]]; mimya<-a[[4]]
+# select fragments of selected metabolites
+      frar=character()
+      ord2<-data.frame()
+    while(nrow(ord1)>3){
+        a<-sset(rd=ord1,nm=ifrg,nar=frar)
+        ord2<-droplevels(a[[1]]); ord1<-droplevels(a[[2]]); frar<-a[[3]]; frimya<-a[[4]]
+      retim<-as.numeric(as.character(ord2[1,iret]))
+      mz0<-as.numeric(as.character(ord2[1,imz]))
+      cfrg<-strsplit(as.character(ord2[1,ifrg]),'C')[[1]]
+      nCfrg<-as.numeric(cfrg[3])-as.numeric(substr(cfrg[2],1,1))+1
+      nmass<-nCfrg+5 # number of isotopomers to present
+     rts<-retim*60.;
+     ranum<-integer()
+# ** Extraction of peaks starts here **
+# select m/z range corresponding to the selrcted fragment
+        for(i in 1:length(mzrang))
+ if((mz0 %in% round(mzrang[[i]],1)) & (rts>rett[tpos[i]]) & (rts<rett[tpos[i+1]-5])){ ranum<-i; break }
+        tpclose<-which.min(abs(rett-rts));  tlim=50
+        tplow<-max(tpclose-tlim,tpos[ranum]);
+        tpup<-min(tpclose+tlim,tpos[ranum+1])     # boundaries that include desired peak
+   mzi<-mzind[ranum]+mzpt[ranum]*(tplow-tpos[ranum])#index of initial mz point
+   mzfi<-mzi+mzpt[ranum]*(tpup-tplow)   	#index of final mz point
+   rtpeak<-rett[tplow:tpup] # retention times within the boundaries
+        tpclose<-which.min(abs(rtpeak-rts))
+      
+    misofin<-array(mz0:(mz0+nmass)) # isotopores to present in the spectrum
+    lmisofin<-round(mzrang[[ranum]],1) %in% round(misofin,1) # do they are present in the given mzrang?
+    pikmz<-mzrang[[ranum]][lmisofin] # extrat those that are present
+    nmass<-length(pikmz)
     
-  bas=baseln(intens,nmi,tlim)   # baseline:
-  intens<-subas(intens,bas)    # subtract baseline
-  
-    a<- peakdist(intens,rett1,tlim)
-    dispik<-c(0.,a[[1]]); disar<-c(0.,a[[2]]); j<-0
- for(i in 1:length(mzr)) if(rada[ln+i,1]==lfi[k]) {j=j+1; rada[(ln+j),iint]<-round(disar[i],3)}
-    ln<-ln+j
- break
- }
-   ofs<-ii
+    intens<-matrix(ncol=nmass,nrow=(tpup-tplow),0)
+    intens<-sweep(intens,2,iv[mzi:mzfi][lmisofin],'+') # create matrix iv(col=mz,row=rt) that includes the peak
+     pospiks<-apply(intens,2,which.max)
+     pikint<-apply(intens,2,max)
+   if(max(abs(diff(pospiks)))>9) goodiso<-which.min(abs(pospiks-tpclose))  else goodiso<-which.max(pikint)
+        pikpos<-pospiks[goodiso]
+     
+  if((abs(pikpos-tpclose)<rtdev)&(pikpos>2)&(pikpos<(nrow(intens)-2))) {
+        maxpik<-pikint[goodiso]
+     if(maxpik>8300000) {smaxpik<-"**** !?MAX_PEAK:"; print(paste("** max=",maxpik,"   ",mimya,"   **")); next }
+        piksum<-numeric()
+    for(k in 1:nmass) piksum[k]<-sum(intens[(pikpos-2):(pikpos+2),k])
+      bas<-5*round(apply(intens,2,basln,pos=pikpos,ofs=5))
+                delta<-round(piksum-bas)
+    if((misofin[1]==pikmz[1])&(delta[1]/delta[2] > 0.075)) { s5tp<-"*!?* 5_timepoints:";
+      print(paste("+++ m-1=",delta[1],"  m0= ",delta[2],"   +++ ",mimya)); next }
+                rat<-delta/bas
+     iso<-character()
+     for(i in 1:nmass)iso[i]<-paste(substr(mimya,1,3),"_13C",i-2,sep="")
+     tab<-cbind(ord2[1,1:iret],round(pikmz),delta,iso," ")
+    write.table(tab, file=ouFile, sep=", ", row.names = F, col.names = F, append=T)
+	}
+      }
     }
-      } }
-
-
-    write.table(tit, file=ouFile, sep=",", row.names = F, col.names = F)
-    write.table(rada[-1,], file=ouFile, sep=",", row.names = F, col.names = F, append=T)
+  }
     unlink(temp, recursive = T, force = T)
 }
 
