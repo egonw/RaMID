@@ -17,14 +17,14 @@ basln<-function(vec,pos=length(vec),ofs=0){# baseline
   else if(basr<0) bas<-basl
  return(bas)}
 
-ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip",sp=','){
+ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip"){
  temp <- paste(tempdir(),"/",sep="")  #"data/ttt/"  #
  lf<-unzip(cdfzip,exdir=temp)
 # lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
  print(lf)
 
   fn<-inFile  #file.path(paste("./",inFile,sep=""));
-  rada<-read.table(inFile, sep=sp);   # read experimental data
+  rada<-read.table(inFile, sep=',');   # read experimental data
    tit<-rada[1,] # copy titles
     write.table(tit, file=ouFile, sep=",", row.names = F, col.names = F)
   for(i in 1:ncol(rada)) {
