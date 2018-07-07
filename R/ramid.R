@@ -17,7 +17,7 @@ basln<-function(vec,pos=length(vec),ofs=0){# baseline
   else if(basr<0) bas<-basl
  return(bas)}
 
-ruramid<-function(inFile="ramidin.csv",ouFile="ramidout.csv",cdfzip="data/wd.zip"){
+ruramid<-function(inFile="exam1in.csv",ouFile="exam1ou.csv",cdfzip="data/exam1.zip"){
  temp <- paste(tempdir(),"/",sep="")  #"data/ttt/"  #
  lf<-unzip(cdfzip,exdir=temp)
 # lcdf<-dir(path="./data/temp",pattern=".CDF") # list of names of ".CDF" files
