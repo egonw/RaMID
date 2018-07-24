@@ -24,11 +24,11 @@ RaMID reads the CDF files presented in the working directory, and then
 <a name="3"></a>
 ## 3. Ways of accessing the program
 - Way 1. Accessing RaMID code directly, downloading it from [the GitHub repository](https://github.com/seliv55/RaMID).
-```
+```sh
 git clone https://github.com/seliv55/RaMID
 ```
-<dd> Optionally a library of R-functions "ramid" can be created
-```
+ Optionally a library of R-functions "ramid" can be created
+```sh
  cd <.../>RaMID
  sudo R
  library(devtools)
@@ -36,11 +36,11 @@ git clone https://github.com/seliv55/RaMID
  install()
 ```
 - Way 2. Using docker image of RaMID
-<p><dd>The image can be pulled from repo:</dd>
-```
+The image can be pulled from repo:
+```sh
  docker pull container-registry.phenomenal-h2020.eu/phnmnl/ramid
 ```
-<dd>or installed locally using a local copy of [this repo](https://github.com/phnmnl/container-ramid):</dd>
+or installed locally using a local copy of [this repo](https://github.com/phnmnl/container-ramid):
 ```sh
  git clone https://github.com/phnmnl/container-ramid
  cd <...>/container-ramid
@@ -57,31 +57,31 @@ Here to create the docker image, the same github repository "https://github.com/
  library(ramid) # optionally, if this library was created
  library(ncdf4)
 ```
-<dd>Optionally, in R environment read the code directly (if the library "ramid" was not created):<dd>
+Optionally, in R environment read the code directly (if the library "ramid" was not created):
 ```sh
  source("R/ramid.R")
  source("R/libcdf.R")
 ```
-<dd> Then run the main program:</dd>
+Then run the main program:
 ```sh
- ruramid(inFile, ouFile, cdfzip 
+ ruramid(inFile, ouFile, cdfzip )
 ```
-here the parameters are: 'infile' is the name of a file containing input information (metabolites of interest, retention time, beginning of m/z interval), 'ouFile' is the output file with the result (extracted intensities for m/z constituting the mass spectra), and 'cdfzip' is a .zip archive containing CDF files with a registration of ions after each single injections into the mass spectrometer. </p><p>
+here the parameters are: 'infile' is the name of a file containing input information (metabolites of interest, retention time, beginning of m/z interval), 'ouFile' is the output file with the result (extracted intensities for m/z constituting the mass spectra), and 'cdfzip' is a .zip archive containing CDF files with a registration of ions after each single injections into the mass spectrometer.
 
 - Run RaMID as a docker image created locally, go to a folder, containing the input data, and run the image:
 ```sh
  docker run -it -v $PWD:/data ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
 ```
-<dd>To run RaMID as a docker image created in the PhenoMeNal repository, execute</dd>
+To run RaMID as a docker image created in the PhenoMeNal repository, execute
 ```sh
 docker run -it -v $PWD:/data container-registry.phenomenal-h2020.eu/phnmnl/ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
 ```
 
-</p><p>
-RaMID can be used also without all the previous steps of downloading the code or docher image installation, but directly as a part of <a href=https://public.phenomenal-h2020.eu/>PhenoMeNal Cloud Research Environment</a>. Go to Fluxomics tool category, and then click on ramid, and fill the expected input files, then press Run. Additionally, the tool can be used as part of a workflow with Midcor, Iso2flux and the Escher-Fluxomics tools. On a PhenoMeNal deployed CRE you should find as well a Fluxomics Stationary workflow, which includes RaMID. This way of using it is described <a href=https://github.com/phnmnl/phenomenal-h2020/wiki/fluxomics-workflow>here</a>.</p>
 
-<p>The repository https://github.com/seliv55/RaMID provides three examples of using RaMID for extraction of MID for metabolites from CDF files of different complexity. 
+RaMID can be used also without all the previous steps of downloading the code or docher image installation, but directly as a part of <a href=https://public.phenomenal-h2020.eu/>PhenoMeNal Cloud Research Environment</a>. Go to Fluxomics tool category, and then click on ramid, and fill the expected input files, then press Run. Additionally, the tool can be used as part of a workflow with Midcor, Iso2flux and the Escher-Fluxomics tools. On a PhenoMeNal deployed CRE you should find as well a Fluxomics Stationary workflow, which includes RaMID. This way of using it is described <a href=https://github.com/phnmnl/phenomenal-h2020/wiki/fluxomics-workflow>here</a>.
+
+The repository https://github.com/seliv55/RaMID provides three examples of using RaMID for extraction of MID for metabolites from CDF files of different complexity. 
 
 In the first example (command: ruramid(inFile='exam1in.csv', ouFile='exam1ou.csv', cdfzip='data/exam1.zip' )) Ramid extracts the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of m/z for only one metabolite of interest.
-In the second example Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv". Respectively, to run the third example the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for many of them are not separated.</p>
+In the second example Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv". Respectively, to run the third example the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for many of them are not separated.
 
