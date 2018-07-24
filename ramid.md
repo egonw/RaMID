@@ -68,7 +68,7 @@ Then run the main program:
 ```
 here the parameters are: 'infile' is the name of a file containing input information (metabolites of interest, retention time, beginning of m/z interval), 'ouFile' is the output file with the result (extracted intensities for m/z constituting the mass spectra), and 'cdfzip' is a .zip archive containing CDF files with a registration of ions after each single injections into the mass spectrometer.
 
-- Run RaMID as a docker image created locally, go to a folder, containing the input data, and run the image:
+- To run RaMID as a docker image, created locally, go to a folder, containing the input data, and run the image:
 ```sh
  docker run -it -v $PWD:/data ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
 ```
@@ -77,11 +77,10 @@ To run RaMID as a docker image created in the PhenoMeNal repository, execute
 docker run -it -v $PWD:/data container-registry.phenomenal-h2020.eu/phnmnl/ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
 ```
 
-
 RaMID can be used also without all the previous steps of downloading the code or docher image installation, but directly as a part of <a href=https://public.phenomenal-h2020.eu/>PhenoMeNal Cloud Research Environment</a>. Go to Fluxomics tool category, and then click on ramid, and fill the expected input files, then press Run. Additionally, the tool can be used as part of a workflow with Midcor, Iso2flux and the Escher-Fluxomics tools. On a PhenoMeNal deployed CRE you should find as well a Fluxomics Stationary workflow, which includes RaMID. This way of using it is described <a href=https://github.com/phnmnl/phenomenal-h2020/wiki/fluxomics-workflow>here</a>.
 
 The repository https://github.com/seliv55/RaMID provides three examples of using RaMID for extraction of MID for metabolites from CDF files of different complexity. 
 
-In the first example (command: ruramid(inFile='exam1in.csv', ouFile='exam1ou.csv', cdfzip='data/exam1.zip' )) Ramid extracts the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of m/z for only one metabolite of interest.
-In the second example Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv". Respectively, to run the third example the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for many of them are not separated.
+In the first example (command: ruramid(inFile='exam1in.csv', ouFile='exam1ou.csv', cdfzip='data/exam1.zip' )) Ramid extracts the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of m/z for only one metabolite of interest.<br>
+In the second example Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv".<br> Respectively, to run the third example the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for many of them are not separated.
 
