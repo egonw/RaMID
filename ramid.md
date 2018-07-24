@@ -35,8 +35,8 @@ git clone https://github.com/seliv55/RaMID
  build()
  install()
 ```
-- Way 2. Using docker image of RaMID
-The image can be pulled from repo:
+- Way 2. Using docker image of RaMID.<br>
+ The image can be pulled from repo:
 ```sh
  docker pull container-registry.phenomenal-h2020.eu/phnmnl/ramid
 ```
