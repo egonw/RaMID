@@ -4,7 +4,7 @@
 Version: 1.0
 
 ## Short description
-R-program to read CDF files, created by mass spectrometry machine, and evaluate the mass spectra of 13C-labeled metabolites 
+Supports the initial step of fluxomic analysis from 13C raw data presented in Metabolights: read CDF files, created by mass spectrometry machine, and evaluate the mass spectra of 13C-labeled metabolites.
 
 ## Description
 
@@ -56,60 +56,72 @@ RaMID reads the CDF files presented in the working directory, and then
 
 ## Git Repository
 
-- https://github.com/seliv55/wf/tree/master/RaMID
+- https://github.com/seliv55/RaMID
 
-## Installation
-
-- As independent program, RaMID itself does not require installation. There are two ways of using it: either creating a library "ramid", or reading source files containing the implemented functions. Standing in the RaMID directory: 
-  
-  
-- 1) To create a library "ramid":
-
+## 3. Ways of accessing the program
+- Way 1. Accessing RaMID code directly, downloading it from [the GitHub repository](https://github.com/seliv55/RaMID).
+```sh
+git clone https://github.com/seliv55/RaMID
 ```
-sudo R
+ Optionally a library of R-functions "ramid" can be created
+```sh
+ cd <.../>RaMID
+ sudo R
+ library(devtools)
+ build()
+ install()
+```
+- Way 2. Using docker image of RaMID.<br>
+ The image can be pulled from repo:
+```sh
+ docker pull container-registry.phenomenal-h2020.eu/phnmnl/ramid
+```
+or installed locally using a local copy of [this repo](https://github.com/phnmnl/container-ramid):
+```sh
+ git clone https://github.com/phnmnl/container-ramid
+ cd <...>/container-ramid
+ docker build -t ramid .
+```
+Here to create the docker image, the same github repository "https://github.com/seliv55/RaMID" is used.
 
-library(devtools)
+## 4. Execution the program
 
-build()
+- Direct execution of the downloaded code.
+ Load the necessary libraries:
+```sh
+ R
+ library(ramid) # optionally, if this library was created
+ library(ncdf4)
+```
+Optionally, in R environment read the code directly (if the library "ramid" was not created):
+```sh
+ source("R/ramid.R")
+ source("R/libcdf.R")
+```
+Then run the main program:
+```sh
+ ruramid(inFile, ouFile, cdfzip )
+```
+here the parameters are: 'infile' is the name of a file containing input information (metabolites of interest, retention time, beginning of m/z interval), 'ouFile' is the output file with the result (extracted intensities for m/z constituting the mass spectra), and 'cdfzip' is a .zip archive containing CDF files with a registration of ions after each single injections into the mass spectrometer.
 
-install()
-
-library(ramid)
-
-library(ncdf4)
+- To run RaMID as a docker image, created locally, go to a folder, containing the input data, and run the image:
+```sh
+ docker run -it -v $PWD:/data ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
+```
+To run RaMID as a docker image created in the PhenoMeNal repository, execute
+```sh
+docker run -it -v $PWD:/data container-registry.phenomenal-h2020.eu/phnmnl/ramid -i /data/inFile -o /data/ouFile -z /data/data/cdfzip
 ```
 
-- 2) to read directly the necessary functions:
-  
-```
-R
+RaMID can be used also without all the previous steps of downloading the code or docher image installation, but directly as a part of <a href=https://public.phenomenal-h2020.eu/>PhenoMeNal Cloud Research Environment</a>. Go to Fluxomics tool category, and then click on ramid, and fill the expected input files, then press Run. Additionally, the tool can be used as part of a workflow with Midcor, Iso2flux and the Escher-Fluxomics tools. On a PhenoMeNal deployed CRE you should find as well a Fluxomics Stationary workflow, which includes RaMID. This way of using it is described <a href=https://github.com/phnmnl/phenomenal-h2020/wiki/fluxomics-workflow>here</a>.
 
-source("R/ramid.R")
-
-source("R/libcdf.R")
-
-library(ncdf4)
-```
-
-- the directory data/ should contain a .zip file containing the .cdf files that are to be analyzed.
-
-## Usage Instructions
-
-- The analysis performed when executing the  command:
-
-```
-ruramid(inFile, ouFile, cdfzip )
-```
-
-here the parameters are the names of a file containing input information (metabolites of interest, retention time, beginning of m/z interval), output file with the result (extracted intensities for m/z constituting the mass spectra), and a .zip archive containing CDF files with a registration of ions after each single injections into the mass spectrometer.
-    
 ## Three examples are provided
 
-- in the first example Ramid extracts the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of m/z for only one metabolite of interest. Archive containing such data is "data/exam1.zip" and correspinding additional input information and output results are in "exam1in.csv" and "exam1ou.csv". The following command starts this analysis:
+- in the **first example** Ramid extracts the m/z peaks distribution from monopeak CDF files, i.e. files that contain time course of m/z for only one metabolite of interest. Archive containing such data is "data/exam1.zip" and correspinding additional input information and output results are in "exam1in.csv" and "exam1ou.csv". The following command starts this analysis:
 
 ```
 ruramid(inFile="exam1in.csv",ouFile="exam1ou.csv",cdfzip="data/exam1.zip")
 ```
  
-- in the second example Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv". Respectively, to run the third example the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for them could be not separated.
+- in the **second example** Ramid extracts the m/z peaks distribution from CDF files that contain time course of m/z for several metabolites of interest, but separate m/z regions are measured for each metabolite. The corresponding data are contained in "data/exam2.zip","exam2in.csv" and output is in "exam2ou.csv". Respectively, to run the **third example** the parameters are "data/exam3.zip","exam3in.csv" and "exam3ou.csv". It contains recordings for all metabolites of interest in each CDF file. The m/z intervals for them could be not separated.
 
